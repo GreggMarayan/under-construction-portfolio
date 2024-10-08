@@ -5,7 +5,7 @@ function App() {
 
     return (
     <>
-      <BackGrid text = "Test"/>
+      <BackGrid text = "Under Construction" subtext = "Thank you for your patience!"/>
     </>
   )
 }
