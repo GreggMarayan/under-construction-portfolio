@@ -1,10 +1,10 @@
-import { BackgroundLines } from "@/components/ui/background-lines";
 import { Button, buttonVariants } from "@/components/ui/button"
+import { Header } from "@/components/ui/Header"
 
 export default function Home() {
   return (
     <>
-    <Button variant="ghost">Toggle Mode!</Button>
+      <Header/>
     </>
   );
 }
