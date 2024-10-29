@@ -1,9 +1,7 @@
 import { ModeToggle } from "@/components/ModeToggle";
 import { BackgroundLines } from "@/components/ui/background-lines";
 import { Button, buttonVariants } from "@/components/ui/button"
-import { Header } from "@/components/ui/Header"
-import { useTheme } from "next-themes";
-import { useState } from "react";
+
 
 export default function Home() {
 
@@ -17,7 +15,7 @@ export default function Home() {
         <div>
           <nav>
             <ul className="flex space-x-4 pr-10">
-              <li><ModeToggle/></li>
+              <li><ModeToggle /></li>
               <li><Button variant="ghost"><a href="#contact" className="text-gray-400">Contact</a></Button></li>
             </ul>
           </nav>
