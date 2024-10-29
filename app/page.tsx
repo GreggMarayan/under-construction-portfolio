@@ -1,13 +1,12 @@
+import { ModeToggle } from "@/components/ModeToggle";
 import { BackgroundLines } from "@/components/ui/background-lines";
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Header } from "@/components/ui/Header"
+import { useTheme } from "next-themes";
 import { useState } from "react";
 
 export default function Home() {
-  // const [mode, setMode] = useState()   
-  // function handleDark(){
 
-  // }
 
   return (
     <>
@@ -18,18 +17,14 @@ export default function Home() {
         <div>
           <nav>
             <ul className="flex space-x-4 pr-10">
-              <li><Button variant="ghost" className="text-gray-200">Dark mode?</Button></li>
+              <li><ModeToggle/></li>
               <li><Button variant="ghost"><a href="#contact" className="text-gray-400">Contact</a></Button></li>
             </ul>
           </nav>
         </div>
       </header>
-
-
       <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
-
         <div>
-
         </div>
       </BackgroundLines>
     </>
