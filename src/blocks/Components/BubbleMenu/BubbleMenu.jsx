@@ -5,6 +5,44 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
+const THEME_OPTIONS = ['light', 'dark', 'system'];
+
+const useTheme = () => {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'system';
+    const savedTheme = localStorage.getItem('theme');
+    return THEME_OPTIONS.includes(savedTheme) ? savedTheme : 'system';
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    const isDark = 
+      theme === 'dark' || 
+      (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    root.classList.toggle('dark', isDark);
+    localStorage.setItem('theme', theme);
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      if (theme === 'system') {
+        root.classList.toggle('dark', mediaQuery.matches);
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [theme]);
+
+  const cycleTheme = () => {
+    const currentIndex = THEME_OPTIONS.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % THEME_OPTIONS.length;
+    setTheme(THEME_OPTIONS[nextIndex]);
+  };
+
+  return { theme, cycleTheme };
+};
+
 const DEFAULT_ITEMS = [
   {
     label: "home",
@@ -57,6 +95,7 @@ export default function BubbleMenu({
   animationDuration = 0.5,
   staggerDelay = 0.12,
 }) {
+  const { theme, cycleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -221,13 +260,13 @@ export default function BubbleMenu({
         <div
           className={[
             "bubble logo-bubble",
-            "inline-flex items-center justify-center",
+            "inline-flex items-center justify-between",
             "rounded-full",
-            "bg-white",
-            "shadow-[0_4px_16px_rgba(0,0,0,0.12)]",
+            "bg-white dark:bg-gray-800",
+            "shadow-[0_4px_16px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
             "pointer-events-auto",
             "h-12 md:h-14",
-            "px-4 md:px-8",
+            "px-4 md:px-6",
             "gap-2",
             "will-change-transform",
           ].join(" ")}
@@ -242,14 +281,12 @@ export default function BubbleMenu({
             className={[
               "logo-content",
               "inline-flex items-center justify-center",
-              "w-[120px] h-full",
+              "w-[100px] h-full",
             ].join(" ")}
-            style={
-              {
-                ["--logo-max-height"]: "60%",
-                ["--logo-max-width"]: "100%",
-              }
-            }
+            style={{
+              ["--logo-max-height"]: "60%",
+              ["--logo-max-width"]: "100%",
+            }}
           >
             {typeof logo === "string" ? (
               <img
@@ -261,6 +298,28 @@ export default function BubbleMenu({
               logo
             )}
           </span>
+          
+          <button
+            onClick={cycleTheme}
+            className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            aria-label={`Switch theme. Current: ${theme}`}
+          >
+            {theme === 'light' && (
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+            {theme === 'dark' && (
+              <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            )}
+            {theme === 'system' && (
+              <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            )}
+          </button>
         </div>
 
         <button
@@ -270,8 +329,8 @@ export default function BubbleMenu({
             isMenuOpen ? "open" : "",
             "inline-flex flex-col items-center justify-center",
             "rounded-full",
-            "bg-white",
-            "shadow-[0_4px_16px_rgba(0,0,0,0.12)]",
+            "bg-white dark:bg-gray-800",
+            "shadow-[0_4px_16px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
             "pointer-events-auto",
             "w-12 h-12 md:w-14 md:h-14",
             "border-0 cursor-pointer p-0",
@@ -351,9 +410,9 @@ export default function BubbleMenu({
                     "w-full",
                     "rounded-[999px]",
                     "no-underline",
-                    "bg-white",
+                    "bg-white dark:bg-gray-800",
                     "text-inherit",
-                    "shadow-[0_4px_14px_rgba(0,0,0,0.10)]",
+                    "shadow-[0_4px_14px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_14px_rgba(0,0,0,0.3)]",
                     "flex items-center justify-center",
                     "relative",
                     "transition-[background,color] duration-300 ease-in-out",

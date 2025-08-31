@@ -3,7 +3,7 @@ import DotGrid from '../blocks/Backgrounds/DotGrid/DotGrid'
 
 function About() {
   return (
-    <div style={{ width: '100vh', height: '100vh', position: 'relative' }}>
+    <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
       <DotGrid
         dotSize={5}
         gap={15}

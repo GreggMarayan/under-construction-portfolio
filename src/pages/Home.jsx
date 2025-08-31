@@ -7,7 +7,7 @@ function Home() {
     <>
       <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
         <FaultyTerminal
-          scale={1.5}
+          scale={2}
           gridMul={[2, 1]}
           digitSize={1.5}
           timeScale={1}
