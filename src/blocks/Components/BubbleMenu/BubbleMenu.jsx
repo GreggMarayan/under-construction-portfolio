@@ -1,7 +1,3 @@
-/*
-	Installed from https://reactbits.dev/tailwind/
-*/
-
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
@@ -90,12 +86,15 @@ export default function BubbleMenu({
   menuBg = "#fff",
   menuContentColor = "#111",
   useFixedPosition = true,
+
   items,
   animationEase = "back.out(1.5)",
   animationDuration = 0.5,
   staggerDelay = 0.12,
 }) {
+  
   const { theme, cycleTheme } = useTheme();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -287,6 +286,7 @@ export default function BubbleMenu({
               ["--logo-max-height"]: "60%",
               ["--logo-max-width"]: "100%",
             }}
+
           >
             {typeof logo === "string" ? (
               <img
@@ -320,15 +320,7 @@ export default function BubbleMenu({
               </svg>
             )}
           </button>
-        </div>
 
-        <button
-          type="button"
-          className={[
-            "bubble toggle-bubble menu-btn",
-            isMenuOpen ? "open" : "",
-            "inline-flex flex-col items-center justify-center",
-            "rounded-full",
             "bg-white dark:bg-gray-800",
             "shadow-[0_4px_16px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
             "pointer-events-auto",
@@ -413,6 +405,7 @@ export default function BubbleMenu({
                     "bg-white dark:bg-gray-800",
                     "text-inherit",
                     "shadow-[0_4px_14px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_14px_rgba(0,0,0,0.3)]",
+
                     "flex items-center justify-center",
                     "relative",
                     "transition-[background,color] duration-300 ease-in-out",
