@@ -1,37 +1,33 @@
-import FaultyTerminal from "./blocks/Backgrounds/FaultyTerminal/FaultyTerminal"
-import BubbleMenu from "./blocks/Components/BubbleMenu/BubbleMenu"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";  //routing
+
+import Home from './pages/Home.jsx';
+import About from './pages/About.jsx';
+
+import MainLayout from './layouts/MainLayout';  //For globally adding bubble menu
 
 function App() {
-
   return (
-    <>
-      <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-        <FaultyTerminal
-          scale={1.5}
-          gridMul={[2, 1]}
-          digitSize={1.5}
-          timeScale={1}
-          pause={false}
-          scanlineIntensity={1}
-          glitchAmount={1}
-          flickerAmount={1}
-          noiseAmp={1}
-          chromaticAberration={0}
-          dither={0}
-          curvature={0.13}
-          tint="A7EF9E"
-          mouseReact={true}
-          mouseStrength={0.5}
-          pageLoadAnimation={true}
-          brightness={0.6}
-        />
-      </div>
-      <BubbleMenu
-        logo={<span style={{ fontWeight: 1000 }}>Gregg.Dev</span>}
-        />
-    </>
+    <Router>
+      <Routes>
 
-  )
+        <Route path="/" element={
+          <MainLayout>
+            <Home />
+          </MainLayout>
+        } />
+
+        <Route path="/about" element={
+          <MainLayout>
+            <About />
+          </MainLayout>
+        } />
+
+        {/* Add more routes here */}
+
+      </Routes>
+    </Router>
+  );
+
 }
 
-export default App
+export default App;
