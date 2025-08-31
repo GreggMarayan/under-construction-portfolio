@@ -49,7 +49,7 @@ const DEFAULT_ITEMS = [
   },
   {
     label: "about",
-    href: "about",
+    href: "/about",
     ariaLabel: "About",
     rotation: 8,
     hoverStyles: { bgColor: "#10b981", textColor: "#ffffff" },
