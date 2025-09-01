@@ -1,4 +1,3 @@
-import React from 'react'
 import DotGrid from '../blocks/Backgrounds/DotGrid/DotGrid'
 
 function About() {
