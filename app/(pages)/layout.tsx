@@ -3,34 +3,41 @@
 import { useState } from 'react';
 import Link from "next/link";
 import "../globals.css";
-
+import { usePathname } from 'next/navigation';
 
 function NavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) {
+  const pathname = usePathname();
+
+  const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
+
   return (
     <Link
       href={href}
       onClick={onClick}
-      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
-        {children}
+      className={`block px-3 py-2 rounded-md text-base font-medium 
+        ${isActive
+          ? 'text-indigo-600 bg-indigo-50'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+        }`}>
+      {children}
     </Link>
   );
 }
+
+const routes = ["Projects", "Achievements", "Contact"];
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="w-full rounded-b-sm border-gray-200 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-8xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-lg z-50 border border-gray-100">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="text-xl font-bold text-gray-900">Gregg Marayan</Link>
           </div>
           <div className="hidden items-center sm:ml-6 sm:flex sm:space-x-8">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/projects">Projects</NavLink>
-            <NavLink href="/achievements">Achievements</NavLink>
-            <NavLink href="/contact">Contact</NavLink>
+            {routes.map((route) => <NavLink key={route} href={`${route.toLowerCase()}`} children={route} />)}
           </div>
           {/* Mobile menu button */}
           <div className="-mr-2 flex items-center sm:hidden">
@@ -83,26 +90,26 @@ function Navbar() {
       {isOpen && (
         <div className="sm:hidden">
           <div className="pt-2 pb-3 space-y-1">
-            <NavLink 
-              href="/" 
+            <NavLink
+              href="/"
               onClick={() => setIsOpen(false)}
             >
               Home
             </NavLink>
-            <NavLink 
-              href="/projects" 
+            <NavLink
+              href="/projects"
               onClick={() => setIsOpen(false)}
             >
               Projects
             </NavLink>
-            <NavLink 
-              href="/achievements" 
+            <NavLink
+              href="/achievements"
               onClick={() => setIsOpen(false)}
             >
               Achievements
             </NavLink>
-            <NavLink 
-              href="/contact" 
+            <NavLink
+              href="/contact"
               onClick={() => setIsOpen(false)}
             >
               Contact
@@ -114,17 +121,14 @@ function Navbar() {
   );
 }
 
-export default function RootLayout({ children, }: Readonly<{  children: React.ReactNode; }> ) 
-{
+export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
       <body>
         <div className="min-h-screen flex flex-col">
           <Navbar />
           <main className="flex-grow">
-            <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-              {children}
-            </div>
+            <div className="container mx-auto my-10">{children}</div>
           </main>
         </div>
       </body>
